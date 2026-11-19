@@ -1,0 +1,27 @@
+{
+  "service_name": "haszno-openviking",
+  "storage": {
+    "workspace": "/app/.openviking/data",
+    "vectordb": { "name": "context", "backend": "local" },
+    "agfs": { "backend": "local" }
+  },
+  "embedding": {
+    "dense": { "provider": "local", "model": "bge-small-zh-v1.5-f16", "dimension": 512 }
+  },
+  "vlm": {
+    "provider": "litellm",
+    "model": "anthropic/claude-haiku-5-5",
+    "api_key": ""
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 1933,
+    "auth_mode": "trusted",
+    "root_api_key": "",
+    "cors_origins": [],
+    "agent_evolution": { "enabled": false }
+  },
+  "memory": {
+    "session_auto_commit": { "enabled": true }
+  }
+}

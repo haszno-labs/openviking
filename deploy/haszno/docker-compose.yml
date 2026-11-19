@@ -1,0 +1,23 @@
+# Coolify (dockercompose build pack) — Haszno OpenViking. Internal service: no public domain, no host port.
+# The Haszno API reaches it over the private network (VIKING_URL=http://openviking:1933 on the same host,
+# or through a protected tunnel). Trusted mode: anyone who can reach it with the root key is fully trusted.
+services:
+  openviking:
+    build: .
+    restart: unless-stopped
+    environment:
+      OV_ROOT_API_KEY: ${OV_ROOT_API_KEY:?set OV_ROOT_API_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OV_VLM_MODEL: ${OV_VLM_MODEL:-anthropic/claude-haiku-5-5}
+    volumes:
+      - openviking-data:/app/.openviking
+    mem_limit: 2g
+    healthcheck:
+      test: ["CMD", "openviking-entrypoint", "--healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  openviking-data:
